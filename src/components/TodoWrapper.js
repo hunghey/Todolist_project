@@ -51,7 +51,7 @@ export const TodoWrapper = () => {
     <div className="TodoWrapper">
       <h1>Wellcome Todo List </h1>
       <TodoForm addTodo={addTodo} />
-      <FilterTodo renderedTodoList = {filterTodo}/>
+      {todos.length === 0 ? (<p style={{ color: '#c13a3a' }}>Please add your first to do</p>) : <FilterTodo renderedTodoList = {filterTodo}/>}
       {renderedTodoList.map((todo) => (todo.isEdited ?
       (<EditForm editTodo={editTask} task={todo}/> )
       :(

@@ -2,22 +2,31 @@ import React, { useState } from 'react'
 
 export const TodoForm = ({ addTodo }) => {
     const [value, setValue] = useState('')
+    const [errorMessage, setErrorMessage] = useState(null);
 
-    const handleSubmit = e => {
+    const handleAdd = e => {
         e.preventDefault()
+        if (!value.trim()) { 
+            setErrorMessage('Please enter a valid todo item.');
+            return;
+        }
         addTodo(value)
         setValue('')
     }
-    return (
 
-        <form className='TodoForm' onSubmit={handleSubmit}>
+    const handleChange = (event) => {
+        setValue(event.target.value);
+        setErrorMessage(null); // Clear error message on input change
+    };
+    return (
+        <form className='TodoForm' onSubmit={handleAdd}>
             <input className='todo-input'
-                placeholder='enter input'
+                placeholder='Enter your task'
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={handleChange}
             />
             <button className='todo-btn' >Add</button>
+            {errorMessage && <p style={{ color: '#c13a3a' }}>{errorMessage}</p>}
         </form>
-
     )
 }
