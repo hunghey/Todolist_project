@@ -33,7 +33,7 @@ h1 {
 
 .TodoForm {
   width: 100%;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .todo-input {
@@ -42,7 +42,7 @@ h1 {
   border: 1px solid #8758ff;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 300px;
   color: #fff;
 }
@@ -67,6 +67,7 @@ h1 {
   color: #fff;
   padding: 0.75rem 1rem;
   border-radius: 5px;
+  margin-top: 1rem;
   margin-bottom: 1rem;
 }
 .btn-container{
@@ -100,4 +101,3 @@ h1 {
 .delete-icon {
   cursor: pointer;
 }
- 
