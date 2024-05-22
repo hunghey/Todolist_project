@@ -13,10 +13,10 @@ export const FilterTodo = ({ renderedTodoList }) => {
 
   return (
     <>
-      <Tabs value={selectedValue} onChange={handleChange} centered sx={{paddingTop: '1rem', }}>
-        <Tab label="All" className = 'emoContainer'sx={{color: '#ffffff4d', }}/>
-        <Tab label="Pending"  sx={{color: '#ffffff4d'}} />
-        <Tab label="Completed" sx={{color: '#ffffff4d'}}/>
+      <Tabs value={selectedValue} onChange={handleChange} centered sx={{ paddingTop: '1rem', }}>
+        <Tab label="All" className='emoContainer' sx={{ color: '#ffffff4d', }} />
+        <Tab label="Pending" sx={{ color: '#ffffff4d' }} />
+        <Tab label="Completed" sx={{ color: '#ffffff4d' }} />
       </Tabs>
     </>
   )

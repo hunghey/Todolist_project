@@ -25,8 +25,8 @@ const FormTodo = ({ addTodo }) => {
     };
 
     return (
-        <form className = 'TodoForm' onSubmit={handleSubmit(onSubmit)}>
-           <InputField 
+        <form className='TodoForm' onSubmit={handleSubmit(onSubmit)}>
+            <InputField
                 name="title"
                 label="Todo"
                 control={control}
