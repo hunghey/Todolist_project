@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { TodoForm } from './TodoForm';
 import { Todo } from './Todo';
 import { v4 as uuidv4 } from 'uuid'
 import { EditForm } from './EditForm';
 import { FilterTodo } from './FilterTodo';
+import  FormTodo  from './FormTodo';
 
 uuidv4();
 
@@ -50,8 +50,9 @@ export const TodoWrapper = () => {
   return (
     <div className="TodoWrapper">
       <h1>Wellcome Todo List </h1>
-      <TodoForm addTodo={addTodo} />
-      {todos.length === 0 ? (<p style={{ color: '#c13a3a' }}>Please add your first to do</p>) : <FilterTodo renderedTodoList = {filterTodo}/>}
+      <FormTodo addTodo={addTodo}/>
+
+      {todos.length === 0 ? "" : <FilterTodo renderedTodoList = {filterTodo}/>}
       {renderedTodoList.map((todo) => (todo.isEdited ?
       (<EditForm editTodo={editTask} task={todo}/> )
       :(

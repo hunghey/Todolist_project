@@ -5,6 +5,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
 body {
@@ -19,13 +20,13 @@ body {
 }
 
 h1 {
-  color: #fff;
+  color: #1e1919;
   margin-bottom: 0.5rem;
-  font-size: 1.75rem;
+  font-size: 2.5rem;
 }
 
 .TodoWrapper {
-  background: #1A1A40;
+  background: #b6b6dc;
   margin-top: 5rem;
   padding: 2rem;
   border-radius: 5px;
@@ -47,39 +48,23 @@ h1 {
   color: #fff;
 }
 
-.todo-input::placeholder {
-  color: #ffffff4d;
-}
-
-.todo-btn {
-  background: #8758ff;
-  color: #fff;
-  border: none;
-  padding: 0.55rem;
-  cursor: pointer;
-}
-
 .Todo {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #8758ff;
   color: #fff;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 5px;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
 .btn-container{
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.btn-container .edit-icon{
-  margin-left: 0.5rem;
-}
-.btn-container .todoItem{
-  justify-content: flex-start;
+  gap: 10px
 }
 
 .fa-trash {
