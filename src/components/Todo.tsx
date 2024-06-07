@@ -12,6 +12,7 @@ interface TodoProps {
   toggleCompleted: (id: string) => void;
   editTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
+  // isUpdating: boolean;
 }
 
 export const Todo: React.FC<TodoProps> = ({ task, toggleCompleted, editTodo, deleteTodo }) => {
@@ -20,7 +21,10 @@ export const Todo: React.FC<TodoProps> = ({ task, toggleCompleted, editTodo, del
       <p onClick={() => toggleCompleted(task.id)} className={`todoItem ${task.isCompleted ? 'completed' : ""}`}
         style={{ paddingLeft: "0.75rem" }}>{task.task}</p>
       <div className="btn-container">
-        <div><TbEdit onClick={(e) => editTodo(task.id)} /></div>
+        <div><TbEdit onClick={() => 
+         !task.isCompleted && editTodo(task.id)} 
+          style={{ display: task.isCompleted ? 'none' :'' }}/>
+        </div>
         <div><AiFillDelete className='edit-icon' onClick={(e) => deleteTodo(task.id)} /></div>
       </div>
     </div>
