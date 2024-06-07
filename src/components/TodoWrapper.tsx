@@ -7,16 +7,25 @@ import FormTodo from './FormTodo';
 
 uuidv4();
 
-export const TodoWrapper = () => {
+interface TodoItem {
+  id: string;
+  task: string;
+  isCompleted: boolean;
+  isEdited: boolean;
+  status: string;
+  filterStatus: string;
+}
 
-  const [todos, setTodos] = useState([]);
-  const [filterStatus, setFilterStatus] = useState('all');
+export const TodoWrapper: React.FC = () => {
 
-  const addTodo = (todo) => {
+  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+
+  const addTodo = (todo: string) => {
     setTodos([...todos, { id: uuidv4(), task: todo, isCompleted: false, isEdited: false, status: 'pending', filterStatus: 'all' }]);
   };
 
-  const editTodo = (id) => {
+  const editTodo = (id: string) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, isEdited: !todo.isEdited } : todo
@@ -24,7 +33,7 @@ export const TodoWrapper = () => {
     );
   };
 
-  const editTask = (task, id) => {
+  const editTask = (task: string, id: string) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, task, isEdited: !todo.isEdited } : todo
@@ -32,15 +41,15 @@ export const TodoWrapper = () => {
     );
   };
 
-  const deleteTodo = (id) => {
+  const deleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const toggleCompleted = (id) => {
+  const toggleCompleted = (id: string) => {
     setTodos(todos.map(todo => (todo.id === id ? { ...todo, isCompleted: !todo.isCompleted, status: 'completed' } : todo)))
   }
 
-  const filterTodo = (text) => {
+  const filterTodo = (text: string) => {
     setFilterStatus(text)
   }
 

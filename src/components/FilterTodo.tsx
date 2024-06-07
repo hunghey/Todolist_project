@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import { Tabs, Tab } from '@mui/material';
 
+// Định nghĩa giao diện cho các props
+interface FilterTodoProps {
+  renderedTodoList: (status: string) => void;
+}
 
-export const FilterTodo = ({ renderedTodoList }) => {
+
+export const FilterTodo: React.FC<FilterTodoProps> = ({ renderedTodoList }) => {
 
   const [selectedValue, setSelectedValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setSelectedValue(newValue);
-    renderedTodoList(event.target.innerText.toLowerCase());
+    const target = event.target as HTMLElement;
+    renderedTodoList(target.innerText.toLowerCase());
   };
 
   return (

@@ -2,7 +2,19 @@ import React from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { TbEdit } from 'react-icons/tb'
 
-export const Todo = ({ task, toggleCompleted, editTodo, deleteTodo }) => {
+// Định nghĩa giao diện cho các props
+interface TodoProps {
+  task: {
+    id: string;
+    task: string;
+    isCompleted: boolean;
+  };
+  toggleCompleted: (id: string) => void;
+  editTodo: (id: string) => void;
+  deleteTodo: (id: string) => void;
+}
+
+export const Todo: React.FC<TodoProps> = ({ task, toggleCompleted, editTodo, deleteTodo }) => {
   return (
     <div className='Todo'>
       <p onClick={() => toggleCompleted(task.id)} className={`todoItem ${task.isCompleted ? 'completed' : ""}`}
