@@ -1,6 +1,6 @@
-import { TextField } from '@mui/material';
-import React from 'react'
-import { Control, Controller } from 'react-hook-form';
+import { TextField } from "@mui/material";
+import React from "react";
+import { Control, Controller } from "react-hook-form";
 
 interface InputFieldProps {
   name: string;
@@ -21,12 +21,11 @@ export const InputField: React.FC<InputFieldProps> = ({
   className,
   placeholder,
 }) => {
-
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field}) => (
+      render={({ field }) => (
         <TextField
           {...field}
           label={label}
@@ -40,4 +39,3 @@ export const InputField: React.FC<InputFieldProps> = ({
     />
   );
 };
-

@@ -12,7 +12,6 @@ interface EditFormProps {
     id: string;
     task: string;
     isCompleted: boolean;
-    status: string;
     filterStatus: string;
   };
 }

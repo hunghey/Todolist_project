@@ -1,31 +1,44 @@
-import React, { useState } from 'react'
-import { Todo } from './Todo';
-import { v4 as uuidv4 } from 'uuid'
-import { EditForm } from './EditForm';
-import { FilterTodo } from './FilterTodo';
-import FormTodo from './FormTodo';
-import { Modal, Box } from '@mui/material';
-
-uuidv4();
+import React, { useState, useEffect } from "react";
+import { Todo } from "./Todo";
+import { getTodos, addTodo, updateTodo, deleteTodo } from "../todoService";
+import { EditForm } from "./EditForm";
+import { FilterTodo } from "./FilterTodo";
+import FormTodo from "./FormTodo";
+import { Modal, Box } from "@mui/material";
 
 interface TodoItem {
   id: string;
   task: string;
   isCompleted: boolean;
-  status: string;
   filterStatus: string;
 }
 
 export const TodoWrapper: React.FC = () => {
-
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<TodoItem | null>(null);
 
-  const addTodo = (todo: string) => {
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const todos = await getTodos();
+        setTodos(todos);
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+    };
+    fetchTodos();
+  }, []);
+
+  const handleAddTodo = async (todo: string) => {
     if (isUpdating) return;
-    setTodos([...todos, { id: uuidv4(), task: todo, isCompleted: false, status: 'pending', filterStatus: 'all' }]);
+    try {
+      const newTodo = await addTodo(todo);
+      setTodos([...todos, newTodo]);
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
   };
 
   const handleEditClick = (task: TodoItem) => {
@@ -33,46 +46,65 @@ export const TodoWrapper: React.FC = () => {
     setIsUpdating(true);
   };
 
-  const updateTask = (task: string, id: string) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, task} : todo
-      )
-    );
-    setIsUpdating(false); // Kết thúc quá trình cập nhật
-    setEditTask(null);
+  const updateTask = async (task: string, id: string) => {
+    try {
+      const updatedTodo = await updateTodo(id, { task });
+      setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+      setIsUpdating(false);
+      setEditTask(null);
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
   };
 
-
-  const deleteTodo = (id: string) => {
-    if (isUpdating) return; 
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleDeleteTodo = async (id: string) => {
+    if (isUpdating) return;
+    try {
+      await deleteTodo(id);
+      setTodos(todos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
 
-  const toggleCompleted = (id: string) => {
-    if (isUpdating) return; 
-    setTodos(todos.map(todo => (todo.id === id ? { ...todo, isCompleted: !todo.isCompleted, status: 'completed' } : todo)))
-  }
+  const toggleCompleted = async (id: string) => {
+    if (isUpdating) return;
+    const todoToToggle = todos.find((todo) => todo.id === id);
+    if (!todoToToggle) return;
+    try {
+      const updatedTodo = await updateTodo(id, {
+        isCompleted: !todoToToggle.isCompleted,
+      });
+      setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+    } catch (error) {
+      console.error("Error toggling todo:", error);
+    }
+  };
 
   const filterTodo = (text: string) => {
-    setFilterStatus(text)
-  }
+    setFilterStatus(text);
+  };
 
-  const renderedTodoList = todos.filter(todo => todo.status === filterStatus || filterStatus === 'all')
+  const renderedTodoList = todos.filter(
+    (todo) =>
+      filterStatus === "all" ||
+      (filterStatus === "completed" && todo.isCompleted) ||
+      (filterStatus === "pending" && !todo.isCompleted)
+  );
 
   return (
     <div className="TodoWrapper">
       <h1>Wellcome Todo List </h1>
-      <FormTodo addTodo={addTodo} />
+      <FormTodo addTodo={handleAddTodo} />
 
       {todos.length === 0 ? "" : <FilterTodo renderedTodoList={filterTodo} />}
-       {renderedTodoList.map((todo) => (
+      {renderedTodoList.map((todo) => (
         <Todo
           task={todo}
           key={todo.id}
           toggleCompleted={toggleCompleted}
           editTodo={() => handleEditClick(todo)}
-          deleteTodo={deleteTodo}
+          deleteTodo={handleDeleteTodo}
         />
       ))}
 
@@ -84,16 +116,15 @@ export const TodoWrapper: React.FC = () => {
         </Modal>
       )}
     </div>
-
-  )
-}
+  );
+};
 const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 500,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
 };
